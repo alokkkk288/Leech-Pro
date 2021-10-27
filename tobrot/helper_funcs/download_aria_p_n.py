@@ -7,6 +7,7 @@ import logging
 import os
 import sys
 import time
+import math
 
 import aria2p
 from pyrogram.errors import FloodWait, MessageNotModified
@@ -276,21 +277,20 @@ async def check_progress_for_dl(aria2, gid, event, previous_message):
                     pass
                 #
                 if is_file is None:
-                    msgg = f"<b> Connections 📬 : {file.connections} </b>"
+                    msgg = f"<b>Connections 📬 : {file.connections} </b>"
                 else:
                     msgg = f"<b> Info 📄 :- P: {file.connections} || S: {file.num_seeders} </b>\n"
-                    msg += " | "
-                    msg += "<b>╭────── ⌊__<b> 📥 Downloading </b>: 〘{2}%〙 📤__⌉</b>\n│ \n<b>├〖{0}{1}〗</b>\n".format(
-                    ''.join([FINISHED_PROGRESS_STR for i in range(math.floor(percentage / 5))]),
-                    ''.join([UN_FINISHED_PROGRESS_STR for i in range(20 - math.floor(percentage / 5))]),
-                    round(percentage, 2))
+                    msgg = " | "
+                msg += "<b>╭────── ⌊__<b> 📥 Downloading </b>: 〘{2}%〙 📤__⌉</b>\n│ \n<b>├〖{0}{1}〗</b>\n".format(
+                ''.join([FINISHED_PROGRESS_STR for i in range(math.floor(percentage / 5))]),
+                ''.join([UN_FINISHED_PROGRESS_STR for i in range(20 - math.floor(percentage / 5))]),
+                  round(percentage, 2))
                 msg = "│" + "\n**├"   
                 msg = f"\n<b> File Name 📚 :</b> `{downloading_dir_name}`\n\n<b> Speed 🚀 :</b> `{file.download_speed_string()}`"
                 msg += " | "
                 msg += f"\n<b> Total Size 🗂 :</b> `{file.total_length_string()}`"
                 msg += " | "
                 msg += f"\n<b> Downloaded</b> : `{file.progress_string()}` \n<b> ETA ⏳ :</b> `{file.eta_string()}` \n {msgg}"
-                msg += " | "
                 msg += "\n\n"
                 inline_keyboard = []
                 ikeyboard = []
