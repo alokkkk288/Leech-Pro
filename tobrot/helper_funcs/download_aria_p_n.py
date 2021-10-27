@@ -294,10 +294,10 @@ async def check_progress_for_dl(aria2, gid, event, previous_message):
                 else:
                     msgg = f"<b> Info 📄 :- P: {file.connections} || S: {file.num_seeders} </b>\n"
                     msgg = " | "
-                msg += "<b>╭────── ⌊__<b> 📥 Downloading </b>: 〘{2}%〙 📤__⌉</b>\n│ \n<b>├〖{0}{1}〗</b>\n".format(
-                ''.join([FINISHED_PROGRESS_STR for i in range(math.floor(percentage / 5))]),
-                ''.join([UN_FINISHED_PROGRESS_STR for i in range(20 - math.floor(percentage / 5))]),
-                  round(percentage, 2))
+                    msg += "<b>╭────── ⌊__<b> 📥 Downloading </b>: 〘{2}%〙 📤__⌉</b>\n│ \n<b>├〖{0}{1}〗</b>\n".format(
+                          ''.join([FINISHED_PROGRESS_STR for i in range(math.floor(percentage / 5))]),
+                          ''.join([UN_FINISHED_PROGRESS_STR for i in range(20 - math.floor(percentage / 5))]),
+                            round(percentage, 2))
                 msg = "│" + "\n**├"   
                 msg = f"\n<b> File Name 📚 :</b> `{downloading_dir_name}`\n\n<b> Speed 🚀 :</b> `{file.download_speed_string()}`"
                 msg += " | "
