@@ -19,6 +19,8 @@ from tobrot import (
     DOWNLOAD_LOCATION,
     EDIT_SLEEP_TIME_OUT,
     LOGGER,
+    FINISHED_PROGRESS_STR,
+    UN_FINISHED_PROGRESS_STR,
     MAX_TIME_TO_WAIT_FOR_TORRENTS_TO_START,
 )
 from tobrot.helper_funcs.create_compressed_archive import (
@@ -275,6 +277,17 @@ async def check_progress_for_dl(aria2, gid, event, previous_message):
                     downloading_dir_name = str(file.name)
                 except:
                     pass
+                
+        if round(diff % float(EDIT_SLEEP_TIME_OUT)) == 0 or current == total:
+            # if round(current / total * 100, 0) % 5 == 0:
+            percentage = current * 100 / total
+            speed = current / diff
+            elapsed_time = round(diff) * 1000
+            time_to_completion = round((total - current) / speed) * 1000
+            estimated_total_time = time_to_completion
+
+            elapsed_time = TimeFormatter(milliseconds=elapsed_time)
+            estimated_total_time = TimeFormatter(milliseconds=estimated_total_time)                
                 #
                 if is_file is None:
                     msgg = f"<b>Connections 📬 : {file.connections} </b>"
