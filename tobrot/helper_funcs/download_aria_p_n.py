@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-# (c) Shrimadhav U K | gautamajay52 | MaxxRider
+# (c) Shrimadhav U K | gautamajay52 | MaxxRider | Anonkiller7
 
 import asyncio
 import logging
@@ -229,7 +229,7 @@ async def call_apropriate_function(
                     message_id = final_response[key_f_res_se]
                     channel_id = str(sent_message_to_update_tg_p.chat.id)[4:]
                     private_link = f"https://t.me/c/{channel_id}/{message_id}"
-                    message_to_send += "✘ <a href='"
+                    message_to_send += "🥏 <a href='"
                     message_to_send += private_link
                     message_to_send += "'>"
                     message_to_send += local_file_name
@@ -237,7 +237,7 @@ async def call_apropriate_function(
                     message_to_send += "\n"
                 if message_to_send != "":
                     mention_req_user = (
-                        f"<b><a href='tg://user?id={user_id}'>🥏 Sender</a></b>\n\n"
+                        f"<b><a href='tg://user?id={user_id}'> Sender</a></b>\n\n"
                     )
                     message_to_send = mention_req_user + message_to_send
                     message_to_send = message_to_send + "\n\n" + "#uploads"
@@ -276,22 +276,27 @@ async def check_progress_for_dl(aria2, gid, event, previous_message):
                     pass
                 #
                 if is_file is None:
-                    msgg = f"<b> Connections : {file.connections} </b>"
+                    msgg = f"<b> Connections 📬 : {file.connections} </b>"
                 else:
                     msgg = f"<b> Info 📄 :- P: {file.connections} || S: {file.num_seeders} </b>\n"
                     msg += " | "
+                    msg += "<b>╭────── ⌊__<b> 📥 Downloading </b>: 〘{2}%〙 📤__⌉</b>\n│ \n<b>├〖{0}{1}〗</b>\n".format(
+                    ''.join([FINISHED_PROGRESS_STR for i in range(math.floor(percentage / 5))]),
+                    ''.join([UN_FINISHED_PROGRESS_STR for i in range(20 - math.floor(percentage / 5))]),
+                    round(percentage, 2))
+                msg = "│" + "\n**├"   
                 msg = f"\n<b> File Name 📚 :</b> `{downloading_dir_name}`\n\n<b> Speed 🚀 :</b> `{file.download_speed_string()}`"
                 msg += " | "
-                msg += f"\n<b>➩ Total Size 🗂 :</b> `{file.total_length_string()}`"
+                msg += f"\n<b> Total Size 🗂 :</b> `{file.total_length_string()}`"
                 msg += " | "
-                msg += f"\n<b>➩ Downloaded</b> : `{file.progress_string()}` \n<b> ETA ⏳ :</b> `{file.eta_string()}` \n {msgg}"
+                msg += f"\n<b> Downloaded</b> : `{file.progress_string()}` \n<b> ETA ⏳ :</b> `{file.eta_string()}` \n {msgg}"
                 msg += " | "
                 msg += "\n\n"
                 inline_keyboard = []
                 ikeyboard = []
                 ikeyboard.append(
                     InlineKeyboardButton(
-                        " Cancel 🛑", callback_data=(f"cancel {gid}").encode("UTF-8")
+                        " Cancel 🚫", callback_data=(f"cancel {gid}").encode("UTF-8")
                     )
                 )
                 inline_keyboard.append(ikeyboard)
@@ -330,7 +335,7 @@ async def check_progress_for_dl(aria2, gid, event, previous_message):
             )
             await asyncio.sleep(EDIT_SLEEP_TIME_OUT)
             await event.edit(
-                f"<b>Downloaded Successfully</b>:\n\n📚 <b>File Name</b>: \n`{file.name}`\n\n📀 <b>Total Size</b>: `〘{file.total_length_string()}〙`"
+                f"<b>Downloaded Successfully</b>:\n\n📚 <b>File Name</b>: \n`{file.name}`\n\n🗂 <b>Total Size</b>: `〘{file.total_length_string()}〙`"
             )
             return True
     except aria2p.client.ClientException:
