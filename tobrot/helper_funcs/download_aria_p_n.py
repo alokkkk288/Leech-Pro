@@ -12,6 +12,7 @@ import time
 import aria2p
 from pyrogram.errors import FloodWait, MessageNotModified
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup, Message
+from tobrot.helper_funcs.display_progress import Progress
 from tobrot import (
     ARIA_TWO_STARTED_PORT,
     AUTH_CHANNEL,
