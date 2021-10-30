@@ -28,16 +28,6 @@ from tobrot.helper_funcs.create_compressed_archive import (
     create_archive,
     get_base_name,
     unzip_me,
-)
-from tobrot.helper_funcs.extract_link_from_message import extract_link
-from tobrot.helper_funcs.upload_to_tg import upload_to_gdrive, upload_to_tg
-)
-from pyrogram import Client
-
-logging.basicConfig(
-    level=logging.DEBUG, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s"
-)
-logger = logging.getLogger(__name__)
 
 sys.setrecursionlimit(10 ** 4)
 
