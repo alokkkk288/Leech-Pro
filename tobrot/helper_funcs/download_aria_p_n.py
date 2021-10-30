@@ -290,7 +290,7 @@ async def check_progress_for_dl(aria2, gid, event, previous_message):
 
             elapsed_time = TimeFormatter(milliseconds=elapsed_time)
             estimated_total_time = TimeFormatter(milliseconds=estimated_total_time)                
-                #
+                
                 if is_file is None:
                     msgg = f"<b>├Connections 📬 : {file.connections} </b>"
                 else:
