@@ -6,6 +6,7 @@ import asyncio
 import logging
 import os
 import sys
+import math
 import time
 
 import aria2p
@@ -17,6 +18,9 @@ from tobrot import (
     CUSTOM_FILE_NAME,
     DOWNLOAD_LOCATION,
     EDIT_SLEEP_TIME_OUT,
+    FINISHED_PROGRESS_STR,
+    UN_FINISHED_PROGRESS_STR,
+    gDict,
     LOGGER,
     MAX_TIME_TO_WAIT_FOR_TORRENTS_TO_START,
 )
@@ -27,6 +31,13 @@ from tobrot.helper_funcs.create_compressed_archive import (
 )
 from tobrot.helper_funcs.extract_link_from_message import extract_link
 from tobrot.helper_funcs.upload_to_tg import upload_to_gdrive, upload_to_tg
+)
+from pyrogram import Client
+
+logging.basicConfig(
+    level=logging.DEBUG, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+)
+logger = logging.getLogger(__name__)
 
 sys.setrecursionlimit(10 ** 4)
 
@@ -287,14 +298,21 @@ async def check_progress_for_dl(aria2, gid, event, previous_message):
             estimated_total_time = TimeFormatter(milliseconds=estimated_total_time)                
                 #
                 if is_file is None:
-                    msgg = f"<b>Connections 📬 : {file.connections} </b>"
+                    msgg = f"<b>├Connections 📬 : {file.connections} </b>"
                 else:
-                    msgg = f"<b> Info 📄 :- P: {file.connections} || S: {file.num_seeders} </b>\n"
-   
-                msg = f"\n<b> File Name 📚 :</b> `{downloading_dir_name}`\n\n<b> Speed 🚀 :</b> `{file.download_speed_string()}`"
-                msg += f"\n<b> Total Size 🗂 :</b> `{file.total_length_string()}`"
-                msg += f"\n<b> Downloaded</b> : `{file.progress_string()}`\n\n<b> ETA ⏳ :</b> `{file.eta_string()}` \n {msgg}"
-                msg += "\n\n"
+                    msgg = f"<b>├Info 📄 :- P: {file.connections} || S: {file.num_seeders} </b>\n"
+                    
+            progress = "<b>╭────── ⌊__<b>Downloading</b>: 〘{2}%〙 📤__⌉</b>\n│ \n<b>├〖{0}{1}〗</b>\n".format(
+                ''.join([FINISHED_PROGRESS_STR for i in range(math.floor(percentage / 5))]),
+                ''.join([UN_FINISHED_PROGRESS_STR for i in range(20 - math.floor(percentage / 5))]),
+                round(percentage, 2))
+            #cpu = "{psutil.cpu_percent()}%"
+            tmp = progress +"│" + "\n**├File Name 📚:**   `{downloading_dir_name}` \n**├Speed** 🚀 :** `{file.download_speed_string()}` \n**├Total Size 🗂 :  `{file.total_length_string()}` \n {msgg}**├ETA** ⏳ :  `{file.eta_string()}` \n**│**\n**╰── ⌊ ⚡️ using engine aria2 ⌉**".format(
+                humanbytes(current),
+                humanbytes(total),
+                humanbytes(speed),
+                # elapsed_time if elapsed_time != '' else "0 s",
+                estimated_total_time if estimated_total_time != "" else "0 s",
                 inline_keyboard = []
                 ikeyboard = []
                 ikeyboard.append(
