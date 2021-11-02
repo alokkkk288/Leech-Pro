@@ -273,27 +273,17 @@ async def check_progress_for_dl(aria2, gid, event, previous_message):
                     # https://t.me/c/1220993104/423318
                     downloading_dir_name = str(file.name)
                 except:
-                    pass
-                
-        if round(diff % float(EDIT_SLEEP_TIME_OUT)) == 0 or current == total:
-            # if round(current / total * 100, 0) % 5 == 0:
-            percentage = current * 100 / total
-            speed = current / diff
-            elapsed_time = round(diff) * 1000
-            time_to_completion = round((total - current) / speed) * 1000
-            estimated_total_time = time_to_completion
-
-            elapsed_time = TimeFormatter(milliseconds=elapsed_time)
-            estimated_total_time = TimeFormatter(milliseconds=estimated_total_time)                
+                    pass           
                 #
                 if is_file is None:
                     msgg = f"<b>├Connections 📬 : {file.connections} </b>"
                 else:
                     msgg = f"<b>├Info 📄 :- P: {file.connections} || S: {file.num_seeders} </b>\n"
+                msg = f"<b>╭────── ⌊__<b>📥 Downloading ⌉</b>    
                 msg = f"\n<b>├File Name 📚 :</b> `{downloading_dir_name}`\n<b>├Speed 🚀 :</b> `{file.download_speed_string()}`"
                 msg += f"\n<b>├Total Size 🗂 :</b> `{file.total_length_string()}`"
                 msg += f"\n<b> Downloaded</b> : `{file.progress_string()}`\n<b>├ETA ⏳ :</b> `{file.eta_string()}` \n {msgg}"
-                msg += "\n\n"
+                msg += f"\n╰── ⌊ ⚡️ using engine aria2 ⌉"
                 inline_keyboard = []
                 ikeyboard = []
                 ikeyboard.append(
